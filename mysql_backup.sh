@@ -2,7 +2,7 @@
 
 # Define database credentials.
 DB_USER="root"
-DB_PASS=""
+DB_PASS=" "
 DB_HOST="localhost"
 DB_NAME="drupal"
 
@@ -14,13 +14,13 @@ DUMP_LIVE_DAYS=5
 umask a+r
 
 # Define backup dir.
-BACKUP_DIR="C:/ankitgit/drupal7/${DB_NAME}"
+BACKUP_DIR="C:/${DB_NAME}"
 if [ ! -d $BACKUP_DIR ]; then
   mkdir -p $BACKUP_DIR
   chmod 777 $BACKUP_DIR
 fi
 
-alias proj="cd /home/tree/projects/java"
+
 
 # Define filename.
 DATE=$(date '+%d_%m_%Y_%H_%M_%S')
@@ -29,7 +29,8 @@ FILE_DUMP="${BACKUP_DIR}/${FILENAME}"
 
 
 # Make backup.
-mysqldump -u$DB_USER -p$DB_PASS -h$DB_HOST $DB_NAME > $FILE_DUMP
+
+mysqldump --opt --user=${DB_USER} --password=${DB_PASS} ${DB_HOST} {$DB_NAME} > ${FILE_DUMP}
 
 # Make archive,
 tar cfzP "${FILE_DUMP}.tar.gz" $FILE_DUMP
@@ -38,3 +39,5 @@ rm $FILE_DUMP
 
 # Remove old files.
 find $BACKUP_DIR -type f -mtime "+${DUMP_LIVE_DAYS}" -exec rm -frv  {} \;
+$SHELL
+
